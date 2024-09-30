@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorate="~{inclue/}">
+<head>
+<meta charset="UTF-8">
+<title>templates/sub/inc.html</title>
+
+<!-- /* /include/resource.html페이지의 전체 내용을 포함시키기 */ -->
+<th:block th:insert="~{/include/resource}"></th:block>
+
+</head>
+<body>
+	<div class="container">
+		<h3>본문 내용입니다.</h3>
+		<ul>
+			<li>하나</li>
+			<li>둘</li>
+		</ul>
+	</div>
+	
+	<th:block th:insert="~{/include/footer :: myFooter}"></th:block>
+	
+	<!-- /* 이 div안에 insert 하기 */ -->
+	<div th:insert="~{/include/footer :: myFooter}" style="border:1px dotted blue;" ></div>
+	
+	<!-- /* 이 div를 replace(대체) 하기 */ -->
+	<div th:replace="~{/include/footer :: myFooter}" style="border:1px dotted blue;" ></div>
+	
+	
+	<div th:replace="~{/include/footer :: yourFooter('hi footer')}" style="border:1px dotted blue;" ></div>
+	<div th:replace="~{/include/footer :: yourFooter('bye footer')}" style="border:1px dotted blue;" ></div>
+	
+	
+	
+</body>
+</html>

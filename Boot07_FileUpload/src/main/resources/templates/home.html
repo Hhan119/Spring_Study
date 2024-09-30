@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/home.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>홈 페이지</h1>
+		<ul>
+			<li><a th:href="@{/file/uploadform}">파일 업로드 테스트</a></li>
+			<li><a th:href="@{/gallery/uploadform}">이미지 업로드 테스트</a></li>
+		</ul>
+	</div>
+</body>
+</html>

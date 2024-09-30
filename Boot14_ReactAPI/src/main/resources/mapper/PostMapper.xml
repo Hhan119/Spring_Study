@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="post">
+	<!-- 
+		parameter로 전달된 데이터가 int type이기 때문에 parameterType="int"라고 작성한다.
+		select 된 row 하나의 정보를 MemberDto 객체에 담아야 하기 때문에,
+		resultType="com.example.boot05.dto.MemberDto" 라고 작성해야한다.
+	 -->
+
+	<select id="getList" resultType="PostDto">
+		SELECT id, title, author
+		FROM board_post
+		ORDER BY id ASC
+	</select>
+	
+	<select id="getData" parameterType="int" resultType="PostDto">
+		SELECT id, title, author
+		FROM board_post
+		WHERE id=#{id}
+	</select>
+	
+	<select id="getSequence" resultType="int">
+		SELECT board_post_seq.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<insert id="insert" parameterType="PostDto">
+		INSERT INTO board_post
+		(id, author, title )
+		<!-- /* VALUES(board_post_seq.NEXTVAL, #{title}, #{author}) */ -->
+		<!-- /*  아래는 시퀀스 값을 미리 가져와서 실행한다. 그러면 글 추가할때도 글번호가 정상적으로 출력된다.*/-->
+		VALUES(#{id}, #{author}, #{title})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM board_post
+		WHERE id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="PostDto">
+		UPDATE board_post
+		SET title=#{title}, author=#{author}
+		WHERE id=#{id}
+	</update>
+</mapper>

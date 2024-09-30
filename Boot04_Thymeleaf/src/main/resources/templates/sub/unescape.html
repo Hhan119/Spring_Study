@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/sub/unescape.html</title>
+</head>
+<body>
+	<div class="container">
+	<h1>unescape 테스트</h1>
+	<p>
+		content : <strong th:text="${content}"></strong>
+	</p>
+	<p>
+		content : <strong th:utext="${content}"></strong>
+	</p>
+	<p>
+		content : <strong>[[${content}]]</strong>
+	</p>
+		<p>
+		content : <strong>[(${content})]</strong>
+	</p>
+	</div>
+</body>
+</html>

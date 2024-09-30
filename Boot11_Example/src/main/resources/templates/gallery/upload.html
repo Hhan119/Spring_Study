@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/gallery/uploadform.html</title>
+</head>
+<body>
+	<div class="container">
+	<h3>이미지 업로드 완료 했습니다.</h3>
+	<p>
+		<strong th:text="${dto.writer}"></strong> 님이 이미지 업로드 하였습니다.
+	</p>
+	<p>
+		저장된 파일명 : <strong th:text="${dto.saveFileName}"></strong>
+	</p>
+	<p>
+		실제 이미지 : <img class="card-img-top" th:src="@{'/upload/images/'+${dto.saveFileName}}" />
+	</p>
+	<a th:href="@{/gallery/list}">갤러리 목록으로 이동</a>
+</body>
+</html>

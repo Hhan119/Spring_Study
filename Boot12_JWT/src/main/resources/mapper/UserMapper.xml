@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	<select id="getData" parameterType="java.lang.String" resultType="com.example.boot12.dto.UserDto">
+	select id, userName, password, email, role, profile, regdate
+	from user_tbl
+	where userName=#{userName}
+	</select>
+
+	<insert id="insert" parameterType="com.example.boot12.dto.UserDto">
+	insert into user_tbl
+	(id, userName, password, email, role, regdate)
+	values(user_seq.NEXTVAL, #{userName}, #{password}, #{email}, #{role}, SYSDATE)
+	</insert>
+	
+	<update id="updatePwd" parameterType="com.example.boot12.dto.UserDto">
+	update user_tbl
+	set password=#{newPassword}
+	where userName=#{userName}
+	</update>
+	
+	<update id="update" parameterType="com.example.boot12.dto.UserDto">
+		UPDATE user_tbl
+		SET email=#{email} <if test="profile != null">,profile=#{profile}</if>
+		WHERE userName=#{userName}
+	</update>
+</mapper>

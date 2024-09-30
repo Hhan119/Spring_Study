@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>templates/jpql/test.html</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<style>
+	#resultDiv{
+		height: 400px;
+		overflow: scroll;
+	}
+	#inputSql{
+		background: black;
+		font-size:15px;
+		color:white;
+		height: 250px;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h1>JPQL 테스트</h1>
+		<textarea class="form-control" id="inputSql"></textarea>
+		<button class="btn btn-primary" id="exeBtn">실행(Emp)</button>
+		<button class="btn btn-success" id="exeBtn2">실행(Dept)</button>
+		<button class="btn btn-secondary" id="exeBtn3">실행(Array)</button>
+		<button class="btn btn-info" id="exeBtn4">실행(Deptdto)</button>
+		<button class="btn btn-warning" id="exeBtn5">실행(String)</button>
+		<button class="btn btn-danger" id="exeBtn6">실행(Oracle native)</button>
+		<div id="resultDiv">
+			<pre><code id="result">결과 JSON</code></pre>
+		</div>
+	</div>
+	<script>
+	
+	document.querySelector("#exeBtn").addEventListener("click", ()=>{
+		//입력한 sql 문을 읽어온다.
+		const sql=document.querySelector("#inputSql").value;
+		//요청의 body 에 넣어줄 query 문자열을 얻어낸다 
+		const queryString=new URLSearchParams({query:sql}).toString();
+		// 실행할 sql 문을 query 라는 키값으로 담고 fetch() 함수를 이용해서 페이지 전환없이 전송
+		fetch("[[@{/}]]jpql/emp", {
+			method:"POST",
+			headers:{"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"},
+			body:queryString
+		})
+		.then(res=>res.json())
+		.then(data=>{
+			console.log(data);
+			// 확인하기 쉬운 json 문자열로 object or array 를 변형해서
+			const result = JSON.stringify(data, null, 3);
+			// innerText 로 출력
+			document.querySelector("#result").innerText=result;
+		})
+		.catch(error=>{
+			document.querySelector("#result").innerText=error;
+		});
+	});
+	
+	document.querySelector("#exeBtn2").addEventListener("click", ()=>{
+		//입력한 sql 문을 읽어온다.
+		const sql=document.querySelector("#inputSql").value;
+		//요청의 body 에 넣어줄 query 문자열을 얻어낸다 
+		const queryString=new URLSearchParams({query:sql}).toString();
+		// 실행할 sql 문을 query 라는 키값으로 담고 fetch() 함수를 이용해서 페이지 전환없이 전송
+		fetch("[[@{/}]]jpql/dept", {
+			method:"POST",
+			headers:{"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"},
+			body:queryString
+		})
+		.then(res=>res.json())
+		.then(data=>{
+			console.log(data);
+			// 확인하기 쉬운 json 문자열로 object or array 를 변형해서
+			const result = JSON.stringify(data, null, 3);
+			// innerText 로 출력
+			document.querySelector("#result").innerText=result;
+		})
+		.catch(error=>{
+			document.querySelector("#result").innerText=error;
+		});
+	});
+	
+	document.querySelector("#exeBtn3").addEventListener("click", ()=>{
+		//입력한 sql 문을 읽어온다.
+		const sql=document.querySelector("#inputSql").value;
+		//요청의 body 에 넣어줄 query 문자열을 얻어낸다 
+		const queryString=new URLSearchParams({query:sql}).toString();
+		// 실행할 sql 문을 query 라는 키값으로 담고 fetch() 함수를 이용해서 페이지 전환없이 전송
+		fetch("[[@{/}]]jpql/array", {
+			method:"POST",
+			headers:{"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"},
+			body:queryString
+		})
+		.then(res=>res.json())
+		.then(data=>{
+			console.log(data);
+			// 확인하기 쉬운 json 문자열로 object or array 를 변형해서
+			const result = JSON.stringify(data, null, 3);
+			// innerText 로 출력
+			document.querySelector("#result").innerText=result;
+		})
+		.catch(error=>{
+			document.querySelector("#result").innerText=error;
+		});
+	});
+	
+	document.querySelector("#exeBtn4").addEventListener("click", ()=>{
+		//입력한 sql 문을 읽어온다.
+		const sql=document.querySelector("#inputSql").value;
+		//요청의 body 에 넣어줄 query 문자열을 얻어낸다 
+		const queryString=new URLSearchParams({query:sql}).toString();
+		// 실행할 sql 문을 query 라는 키값으로 담고 fetch() 함수를 이용해서 페이지 전환없이 전송
+		fetch("[[@{/}]]jpql/dto", {
+			method:"POST",
+			headers:{"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"},
+			body:queryString
+		})
+		.then(res=>res.json())
+		.then(data=>{
+			console.log(data);
+			// 확인하기 쉬운 json 문자열로 object or array 를 변형해서
+			const result = JSON.stringify(data, null, 3);
+			// innerText 로 출력
+			document.querySelector("#result").innerText=result;
+		})
+		.catch(error=>{
+			document.querySelector("#result").innerText=error;
+		});
+	});
+	
+	document.querySelector("#exeBtn5").addEventListener("click", ()=>{
+		//입력한 sql 문을 읽어온다.
+		const sql=document.querySelector("#inputSql").value;
+		//요청의 body 에 넣어줄 query 문자열을 얻어낸다 
+		const queryString=new URLSearchParams({query:sql}).toString();
+		// 실행할 sql 문을 query 라는 키값으로 담고 fetch() 함수를 이용해서 페이지 전환없이 전송
+		fetch("[[@{/}]]jpql/string", {
+			method:"POST",
+			headers:{"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"},
+			body:queryString
+		})
+		.then(res=>res.json())
+		.then(data=>{
+			console.log(data);
+			// 확인하기 쉬운 json 문자열로 object or array 를 변형해서
+			const result = JSON.stringify(data, null, 3);
+			// innerText 로 출력
+			document.querySelector("#result").innerText=result;
+		})
+		.catch(error=>{
+			document.querySelector("#result").innerText=error;
+		});
+	});
+	
+	document.querySelector("#exeBtn6").addEventListener("click", ()=>{
+		//입력한 sql 문을 읽어온다.
+		const sql=document.querySelector("#inputSql").value;
+		//요청의 body 에 넣어줄 query 문자열을 얻어낸다 
+		const queryString=new URLSearchParams({query:sql}).toString();
+		// 실행할 sql 문을 query 라는 키값으로 담고 fetch() 함수를 이용해서 페이지 전환없이 전송
+		fetch("[[@{/}]]jpql/oracle", {
+			method:"POST",
+			headers:{"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"},
+			body:queryString
+		})
+		.then(res=>res.json())
+		.then(data=>{
+			console.log(data);
+			// 확인하기 쉬운 json 문자열로 object or array 를 변형해서
+			const result = JSON.stringify(data, null, 3);
+			// innerText 로 출력
+			document.querySelector("#result").innerText=result;
+		})
+		.catch(error=>{
+			document.querySelector("#result").innerText=error;
+		});
+	});
+	
+	</script>
+</body>
+</html>

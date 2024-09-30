@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>templates/loginform.html</title>
+</head>
+<body>
+	<h3>로그인 폼. </h3>
+	<form th:action="@{/user/login}" method="post">
+	<input type="text" name="userName" placeholder="사용자 계정 입력.." />
+	<input type="password" name="password" placeholder="패스워드 입력.." />
+	<button type="submit">로그인</button>
+	</form>
+</body>
+</html>

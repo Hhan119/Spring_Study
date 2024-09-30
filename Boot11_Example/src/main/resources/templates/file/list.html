@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/file/list.html</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1>자료실 목록 입니다</h1>
+        <a th:href="@{/file/upload_form}">새자료 올리기</a>
+        <table class="table table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th>번호</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>파일명</th>
+                    <th>등록일</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tmp : ${list}">
+                    <td>[[${tmp.num}]]</td>
+                    <td>[[${tmp.writer}]]</td>
+                    <td th:text="${tmp.title}"></td>
+                    <td>
+                    	<a th:href="@{/file/download(num=${tmp.num})}" th:text="${tmp.orgFileName}"></a>
+                    </td>
+                    <td th:text="${tmp.regdate}"></td>
+                    <td>
+                    	<a th:if="${session.userName eq tmp.writer}" th:href="@{/file/delete(num=${tmp.num})}">삭제</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+		<!-- 페이지 UI -->
+		 <nav>
+            <ul class="pagination" th:if="${totalPageCount ne 0}">
+                <li th:if="${startPageNum != 1}" class="page-item">
+                    <a class="page-link" th:href="@{'/file/list(pageNum=${startPageNum-1}, condition=${dto.condition}, keyword=${dto.keyword})}">Prev</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(startPageNum, endPageNum)}" class="page-item" th:classappend="${i} == ${pageNum} ? 'active'">
+                    <a class="page-link" th:href="@{/file/list(pageNum=${i}, condition=${dto.condition},keyword=${dto.keyword})}">[[${i}]]</a>
+                </li>
+                <li th:if="${endPageNum < totalPageCount}" class="page-item">
+                    <a class="page-link" th:href="@{pageNum=${endPageNum+1}, condition=${dto.condition}, keyword=${dto.keyword})}">Next</a>
+                </li>
+            </ul>
+        </nav>   
+            <!-- 검색 기능 -->
+        <form th:action="@{/file/list}" method="get">
+        	<label for="condition">검색조건</label><br />
+        	<select name="condition" id="condition">
+        		<option th:selected="${dto.condition eq 'title_filename'}" value="title_filename">제목 + 파일명</option>
+        		<option th:selected="${dto.condition eq 'title'}" value="title">제목</option>
+        		<option th:selected="${dto.condition eq 'writer'}" value="writer">작성자</option>
+        	</select>
+        	<input th:value="${dto.keyword}" type="text" name="keyword" placeholder="검색어.." />
+        	<button class="btn btn-primary btn-sm" type="submit">검색</button>
+        	<a class="btn btn-success btn-sm" th:href="@{/file/list}">새로고침</a>
+        </form>
+        <p th:if="${not #strings.isEmpty(dto.keyword)}">
+        	<strong th:text="${totalRow}"></strong> 개의 자료가 검색되었습니다.
+        </p>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

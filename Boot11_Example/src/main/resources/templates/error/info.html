@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/error/info.html</title>
+</head>
+<body>
+	<h3>에러가 발생했습니다.</h3>
+	<p>
+		에러 정보 : <strong th:text="${exception.message}"></strong>
+		<br />
+		<a th:href="@{/}">홈으로</a>
+	</p>
+</body>
+</html>

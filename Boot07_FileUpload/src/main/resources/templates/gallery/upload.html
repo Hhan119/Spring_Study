@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/gallery/uploadform.html</title>
+</head>
+<body>
+	<div class="container">
+	<h3>이미지 업로드 완료 했습니다.</h3>
+	<p>
+		<strong>[[${orgFileName}]]</strong> 이미지 업로드했습니다.
+	</p>
+	<p>
+		저장된 파일명 : <strong>[[${orgFileName}]]</strong>
+	</p>
+	<p>
+		실제 이미지 : <img th:src="@{'/gallery/images/'+${saveFileName}}"/>
+	</p>
+
+</body>
+</html>l

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<h1>홈 페이지입니다.</h1>
+		<ul>
+			<li><a th:href="@{/member/list}">회원 목록보기</a></li>
+			<li><a th:href="@{/member/insertform}">회원 추가</a></li>
+		</ul>
+	</div>
+</body>
+</html>

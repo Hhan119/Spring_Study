@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>templates/member/insertform.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>요리 추가 양식</h1>
+		<form th:action="@{/cook/insert}" method="post">
+			<input type="text" name="name" placeholder="이름 입력..." />
+			<input type="text" name="cookmake" placeholder="요리만드는법 입력..." />
+			<button type="submit">추가</button>
+		</form>
+	</div>
+</body>
+</html>

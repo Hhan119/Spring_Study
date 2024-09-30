@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>templates/emp/dept_detail.html</title>
+</head>
+<body>
+	<a th:href="@{/}">홈 이동</a>
+	<div class="container">
+		<h3>부서 정보 자세히 보기</h3>
+		<p>
+			부서번호 : <strong>[[${dto.deptno}]]</strong>
+		</p>
+		<p>
+			부서이름 : <strong th:text="${dto.dname}"></strong>
+		</p>
+		<p>
+			부서위치 : <strong th:text="${dto.loc}"></strong>
+		</p>
+		<p>	
+			근무 인원수 : <strong th:text="${dto.count}"></strong>
+		</p>
+		<h4>근무하는 사원의 이름</h4>
+		<ul>
+			<li th:each="tmp : ${dto.names}">[[${tmp}]]</li>
+		</ul>
+	</div>
+</body>
+</html>
+
+

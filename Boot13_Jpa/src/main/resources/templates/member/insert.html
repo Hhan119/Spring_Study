@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>templates/member/insert.html</title>
+</head>
+<body>
+	<h3>알림</h3>
+	<p>
+		<strong th:text="${param.name}"></strong>님의 정보를 추가했습니다.
+		<a th:href="@{/member/list}">확인</a>
+	</p>
+</body>
+</html>

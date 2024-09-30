@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/sub/members.html</title>
+</head>
+<body>
+	<div class="container">
+		<h3>회원 목록</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>팀이름</th>
+					<th>국적</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- /* list는 List<MemberDto> 이기 때문에 tmp는 MemberDto type이다. */ -->
+				<tr th:each="tmp : ${list}">
+					<td>[[${tmp.num}]]</td>
+					<td th:text="${tmp.name}"></td>
+					<td th:text="${tmp.addr}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<style>
+	.drop-zone{
+		height : 500px;
+		border: 3px solid #cecece;
+		border-radius: 10px;	
+		display: flex;
+		justify-content: center; /* 좌우로 가운데 정렬 */
+		align-items: center; /* 위아래로 가운데 정렬*/
+		cursor:pointer;
+	}
+	#profileImage{
+	width: 300px;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h3>이미지 업로드 폼</h3>
+		<form id="uploadForm" th:action="@{/gallery/upload}" method="post" enctype="multipart/form-data">
+		<label class="form-label" for="writer">작성자</label>
+		<input class="form-control" type="text" name="writer" />
+		<label class="form-label" for="caption">설명</label>
+		<input class="form-control" type="text" name="caption" id="caption" /><br />
+		<!-- 이미지 파일만 선택할 수 있도록 accept="image/*" 로 제한한다. -->
+		<div class="mb-2">
+		<!-- 
+		<label for="image">이미지</label>
+		<input type="file" name="image-drag" id="image-drag" accept="image/*" multiple="multiple"/><br>
+			<div class="drop-zone mb-2">Drag and Drop 파일</div>
+				</div>
+				 -->
+		<label for="image">이미지</label>
+		<input type="file" name="images" id="image" accept="image/*" multiple/><br>
+			<div class="drop-zone mb-2">
+				<a href="javascript:" id="profileLink">
+					<th:block th:if="${dto.saveFileName eq null}">
+							Image Insert 파일 or Drag and Drop 파일
+						</th:block>
+						<th:block th:unless="${dto.saveFileName eq null}">
+							<img id="profileImage" th:src="@{/upload/images/{name}(name=${dto.saveFileName})}" />
+						</th:block>
+			</div>
+	</div>
+		</div>
+		<button type="submit">업로드</button>
+		</form>
+	</div>
+	<script>
+	// submit 이벤트가 일어 났을 때 폼에 입력하거나 선택된 파일에 대한 검증하기 
+	document.querySelector("#uploadForm").addEventListener("submit", (e)=>{
+		// 입력한 제목
+		const caption = document.querySelector("#caption").value;
+		// 입력한 제목을 검증할 정규식
+		const reg = /^[^ ]+$/; // 공백이 아닌 한글자가 한번이상 반복되야 통과하는 정규 표현식 
+		if(!reg.test(caption)){
+			alert("제목을 입력하세요!");
+			e.preventDefault(); // 폼 제축 막기
+			return;
+		}
+		
+		// 선택한 파일 
+		const files=document.querySelector("#image").files;
+		if(files.length == 0){
+			alert("업로드할 이미지를 선택하세요!");
+			e.preventDefault(); // 폼 제축 막기
+			return;
+		}
+	});
+	
+	
+	// .drop-zone div의 참조값
+	const dropZone=document.querySelector(".drop-zone");
+	//dragover 되었을때 기본 이벤트 막기
+	dropZone.addEventListener("dragover", (e)=>{
+		e.preventDefault(); //기본 이벤트 막기
+	});
+	// drop 되었을때 이벤트 처리
+	dropZone.addEventListener("drop", (e)=>{
+	e.preventDefault(); //기본 이벤트 막기
+	//일단 출력된 내용을 삭제하고
+	document.querySelector(".drop-zone").innerText="";
+		
+	// drop 된 파일의 정보가 들어 있는 배열 얻어내기 
+	const files=e.dataTransfer.files;
+	
+	//이미지 파일만 담을 배열 
+	const imageFiles=[];
+	
+	// javascript 반복문
+	for(let i=0; i<files.length; i++){
+	// i번째 File 객체
+	const tmp=files[i];
+	// 이미지 파일인지 여부를 알아내서 이미지 파일이 아니면 동작하지 않도록 설정 
+	const reg=/image/;
+	if(!reg.test(tmp.type)){ // 파일의 type이 만일 정규표현식을 통과하지 못하면
+		console.log("이미지 파일이 아닙니다.")
+		continue;
+	}
+	//이미지 파일을 배열에 누적시킨다 
+	imageFiles.push(tmp);
+	// 만약에 하나 이상 선택했다면,
+	if(files.length > 5){
+		alert("하나의 파일만 drag drop 하세요!");
+		return; //함수를 여기서 끝내기 
+	}
+	// input type="file" 에 drop 된 파일 넣어주기
+	document.querySelector("#image").files=files;
+	
+	if(files.length>0){
+		//파일로 부터 데이터를 읽어들일 객체 생성
+		const reader=new FileReader();
+		//파일을 DataURL 형식의 문자열로 읽어들이기
+		reader.readAsDataURL(tmp);
+		//로딩이 완료(파일데이터를 모드 읽었을때) 되었을때 실행할 함수 등록
+		reader.onload=(event)=>{
+			//읽은 파일 데이터 얻어내기 
+			const data=event.target.result;
+			// img 형식의 html 문자열을 만들어서 
+			let img=`<img id="profileImage" src="${data}">`;
+			// id 가 profileLink 인 요소에 끼워넣는다(HTML 로 해석하도록 끼워넣기)
+			document.querySelector(".drop-zone").insertAdjacentHTML("beforeend", img);
+		};
+	}
+	}
+		// DataTransfer 객체 생성
+		const dataTransfer = new DataTransfer();
+		// imageFiles 배열에 들어 있는 선택된 이미지 파일을 DataTransfer 객체에 모두 넣어주기
+		imageFiles.forEach(item => dataTransfer.items.add(item));
+		
+		// input type="file" 에 dataTransfer 객체에 담긴 파일 목록을 넣어주기 
+		document.querySelector("#image").files=dataTransfer.files;
+	});
+	
+	
+	
+	// .drop zone을 클릭했을 때 input type="File" 을 강제 클릭해
+	dropZone.addEventListener("click", ()=>{
+		document.querySelector("#image").click();
+	});
+	
+	// 파일을 선택했을때 change 이벤트가 일어난다.
+	document.querySelector("#image").addEventListener("change", (e)=>{
+		// 선택된 파일 배열 객체를 일어낸다.
+		const files=e.target.files;
+		
+		//이미지 파일만 담을 배열 
+		const imageFiles=[];
+		
+		// javascript 반복문
+		for(let i=0; i<files.length; i++){
+		// i번째 File 객체
+		const tmp=files[i];
+		// 이미지 파일인지 여부를 알아내서 이미지 파일이 아니면 동작하지 않도록 설정 
+		const reg=/image/;
+		if(!reg.test(files[i].type)){ // 파일의 type이 만일 정규표현식을 통과하지 못하면
+			console.log("이미지 파일이 아닙니다.")
+			continue;
+		}
+		// 이미지 파일을 배열에 누적시킨다. 
+		imageFiles.push(tmp);
+	
+		if(files.length > 0){
+			//파일로 부터 데이터를 읽어들일 객체 생성
+			const reader=new FileReader();
+			//파일 배열의 0 번방에 있는 파일을 data url 형식으로 읽어들인다 
+			reader.readAsDataURL(files[0]);
+			//다 읽었을때 실행할 함수 등록
+			reader.onload=(event)=>{
+				//읽은 문자열(data url 형식의 긴 문자열) 얻어내기
+				const data=event.target.result;
+				console.log(data);
+				//img 요소를 만들어서 
+				const img=document.createElement("img");
+				//원하는 속성을 추가하고 
+				img.setAttribute("src", data);
+				img.setAttribute("id", "profileImage");
+				//링크를 찾아서 
+				const link=document.querySelector("#profileLink");
+				//기존에 출력된 정보를 삭제하고 
+				link.innerText="";
+				//새로 img 요소를 추가 하기 
+				link.append(img);
+			};
+		}
+		}
+	});
+	</script>
+</body>
+</html>

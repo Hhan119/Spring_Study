@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{inclue/}">
+<head>
+<meta charset="UTF-8">
+<title>/templates/home.html</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+</head>
+<body>
+	<!-- 웹브라우저가 무시하는 주석 -->
+	<!-- /* Thymeleaf가 무시하는 주석 */ -->
+	<div class="container">
+		<h1>인덱스 페이지입니다.</h1>
+		<h3>thymeleaf 사용 방법 </h3>
+		<p>
+			오늘의 인물 : <strong>[[${personToday }]]</strong>
+			<img src="/boot04/images/01_iron_man_2.jpg"/>
+		</p>
+			<h3>thymeleaf 사용 방법2 </h3>
+		<p>
+			오늘의 인물 : <strong th:text="${personToday}"></strong>
+			<img th:src="@{/images/01_iron_man_2.jpg}"/>
+		</p>
+		<ul>
+			<li><a href="/boot04/sub/play">play</a></li>
+			<!-- 타임리프에서 경로는 "@{경로 }" -->
+			<li><a th:href="@{/sub/play}">play</a></li>
+			<li><a th:href="@{/notice}">공지사항</a></li>
+			<li><a th:href="@{/member}">회원 한명의 정보</a></li>
+			<li><a th:href="@{/members}">회원 목록</a></li>
+			
+			<li><a th:href="@{/shop/buy?id=99&count=3}">99번 상품 3개 구매(방법1)</a></li>
+			<li><a th:href="@{'shop/buy?id=' + ${id} + '&count=' + ${count}}">99번 상품 3개 구매(방법2)</a></li>
+			<!-- /* 파이프문자로 감싸면 javascript의 backtic으로 감싼 효과를 낼 수 있다. -->
+			<li><a th:href="@{|/shop/buy?id=${id}&count=${count}|}">99번 상품 3개 구매(방법3)</a></li>
+			<li><a th:href="@{/shop/buy(id=${id}, count=${count})}">99번 상품 3개 구매(방법4)</a></li>
+			<li><a th:href="@{/inc}">include 테스트</a></li>
+			<li><a th:href="@{/unescape}">unescape html 테스트</a></li>
+		</ul> 
+		
+		<!-- /*tmplates/include/footer.html 페이지에 있는 myFooter라는 이름의 조각을 이 블럭안에 넣어라 */ -->
+		<th:block th:insert="~{/include/footer :: myFooter}">
+		</th:block>
+		<th:block th:replace="include/footer :: myFooter">
+		</th:block>
+		
+	</div>
+	<script>
+	let myname="[[${personToday }]]"
+	</script>
+</body>
+</html>

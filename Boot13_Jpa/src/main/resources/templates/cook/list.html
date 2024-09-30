@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>templates/member/list.html</title>
+</head>
+<body>
+	<div class="container">
+		<a th:href="@{/cook/insertform}">요리추가</a>
+	<h1>요리목록</h1>
+	<table>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>요리이름</th>
+					<th>만드는법</th>
+					<th>수정</th>
+					<th>삭제</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<!-- /* list는 List<MemberDto> 이기 때문에 tmp는 MemberDto type이다. */ -->
+				<tr th:each="tmp : ${list}">
+					<td>[[${tmp.num}]]</td>
+					<td th:text="${tmp.name}"></td>
+					<td th:text="${tmp.cookmake}"></td>
+					<td><a th:href="@{/cook/updateform(num=${tmp.num})}">수정</a></td>
+					<td><a th:href="@{/cook/delete(num=${tmp.num})}">삭제</a></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</body>
+</html>

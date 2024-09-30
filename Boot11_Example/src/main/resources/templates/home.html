@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+         xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/Home.html</title>
+</head>
+<body>
+	<div class="container">
+		<div sec:authorize="isAuthenticated()">
+			<a sec:authentication="name" th:href="@{/user/info}"></a>님 로그인중
+			<a th:href="@{/user/logout}">로그아웃</a>
+		</div>
+		<div sec:authorize="!isAuthenticated()">
+		<a th:href="@{/user/signup_form}">회원가입</a>
+		<a th:href="@{/user/login_form}">로그인</a>
+		<a href="https://kauth.kakao.com/oauth/authorize?client_id=ea3fc29935a7e7b17c9a328b221b9488&redirect_uri=http://localhost:8888/callback&response_type=code">
+		<img src="/images/kakao_login.png"/></a>
+		</div>
+		
+
+		<h1>홈 페이지 입니다.</h1>
+		<ul>
+		<li><a th:href="@{/file/list}"> 자료실 목록</a></li>
+		<li><a th:href="@{/cafe/list}"> 글 목록</a></li>
+		<li><a th:href="@{/gallery/list}">갤러리 목록</a></li>
+		</ul>
+		
+		
+		<h3>공지사항</h3>
+		<ul>
+			<li th:each="tmp : ${notice}">[[${tmp}]]</li>
+		</ul>
+	</div>
+</body>
+</html>
