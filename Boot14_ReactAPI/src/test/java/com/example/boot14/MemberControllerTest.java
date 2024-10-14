@@ -1,23 +1,26 @@
 package com.example.boot14;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.boot14.dto.MemberDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 
-import jakarta.transaction.Transactional;
-
-@SpringBootApplication
+@SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
 public class MemberControllerTest {
@@ -40,7 +43,6 @@ public class MemberControllerTest {
 		// {"num":0, "name":"test_name", "addr":"test_addr"}
 		String json = oMapper.writeValueAsString(dto);
 		
-		
 		/*
 		 * post("/members") => post 방식 / members 요청
 		 * 	.contentType(MediaType.APPLICATION_JSON) => json 문자열을 전송하겠다는 요청 header 정보 
@@ -54,7 +56,42 @@ public class MemberControllerTest {
 				.content(json))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name", is("test_name")))
-				.andExpect(jsonPath("$.addr", is("test_addr")));
+				.andExpect(jsonPath("$.addr", is("test_addr")));	
+	}
+	
+	
+	@Test
+	public void testInsert2() throws Exception{
+		// insert 할 회원 정보
+		MemberDto dto = MemberDto.builder()
+				.name("test_name")
+				.addr("test_addr")
+				.build();
+		
+		String json = oMapper.writeValueAsString(dto);
+		
+		// .and Return() , .getResponse()를 호출하면 MockHttpServletResponse 객체를 얻어낼 수 있다. 
+		MockHttpServletResponse response = mockMvc.perform(post("/members")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+				.andDo(print()) // 요청의 결과를 콘솔창에 출력 
+				.andReturn()
+				.getResponse();
+		
+		// 결과로 응답된 정보를 얻어낼 수 있다. 
+		String contentType = response.getContentType();
+		long length = response.getContentLengthLong();
+		String body = response.getContentAsString();
+		
+		System.out.println("contentType :"+contentType);
+		System.out.println("length :"+length);
+		System.out.println("body :"+body);
+		
+		// 응답된 contentType이 반드시 "application/json"이여야 한다.
+		assertEquals(contentType, "application/json");
+		// 응답된 json 문자열을 직접 파싱해서 결과를 확인 할수도 있다.
+		assertEquals(JsonPath.read(body, "$.name"), "test_name");
+		assertEquals(JsonPath.read(body, "$.addr"), "test_addr");
 		
 	}
 }

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import com.example.boot14.filter.JwtFilter;
 
 
@@ -34,7 +35,7 @@ public class SecurityConfig {
 		//화이트 리스트를 미리 배열에 넣어두기
 		String[] whiteList= {"/image/upload","/upload/images/**", "/file/upload", "/file/download", "/cafes", "/cafes/**", "/api/v1/auth/google/accessTokenCallback",
 				"/image/upload2", "/members/**","/gallery","/gallery/**", "/auth","/api/**","/kakaoLogout", "/kakaoLogin", "/googleLogin",
-				"/editor_upload", "/user/check_username/**", "/editor/images/**"};
+				"/editor_upload", "/s3test", "/chat", "/index.html", "/static/**", "/user/check_username/**", "/editor/images/**"};
 
 		//메소드의 매개변수에 HttpSecurity 의 참조값이 전달되는데 해당 객체를 이용해서 설정을 한다음
 		httpSecurity

@@ -11,6 +11,10 @@ public class Boot14ReactApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Boot14ReactApiApplication.class, args);
+		
+		System.out.println("################");
+		System.out.println("Boot14_ReartAPI 프로젝트 실행 정상");
+		System.out.println("################");
 	}
 
 }

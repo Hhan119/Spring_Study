@@ -1,6 +1,5 @@
 package com.example.boot14;
 
-
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,11 +16,11 @@ import jakarta.transaction.Transactional;
 
 // spring boot application을 테스트 하기 위한 어노테시연
 @SpringBootTest
+// DB에 insert, update, delete가 실제 반영되지 않고 ROLLBACK 되도록 한다.
 @Transactional
 class Boot14ReactApiApplicationTests {
 
 	@Autowired MemberDao dao;
-	
 	// @Test 어노테이션을 이용해서 테스트 case 메소드를 작성한다.
 	@Test
 	public void Hello() {
@@ -78,6 +77,5 @@ class Boot14ReactApiApplicationTests {
 		MemberDto savedDto=dao.getData(num);
 		assertEquals(savedDto.getName(), "test_name");
 		assertEquals(savedDto.getAddr(), "test_addr");
-		
 	}
 }
